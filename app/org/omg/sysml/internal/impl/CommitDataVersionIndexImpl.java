@@ -22,6 +22,7 @@
 
 package org.omg.sysml.internal.impl;
 
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.internal.CommitDataVersionIndex;
 import org.omg.sysml.internal.WorkingDataVersion;
 import org.omg.sysml.lifecycle.Commit;
@@ -53,6 +54,7 @@ public class CommitDataVersionIndexImpl implements CommitDataVersionIndex {
     @Override
     @JoinColumn(name = "id")
     @OneToOne(targetEntity = CommitImpl.class)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @MapsId
     public Commit getCommit() {
         return commit;

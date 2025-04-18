@@ -1,5 +1,6 @@
 package org.omg.sysml.internal.impl;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ManyToAny;
 import org.omg.sysml.internal.CommitNamedElementIndex;
 import org.omg.sysml.lifecycle.Commit;
@@ -29,6 +30,7 @@ public class CommitNamedElementIndexImpl implements CommitNamedElementIndex {
     @Override
     @JoinColumn(name = "id")
     @OneToOne(targetEntity = CommitImpl.class)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @MapsId
     public Commit getCommit() {
         return commit;

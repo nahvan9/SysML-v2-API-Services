@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jackson.RecordSerialization;
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.lifecycle.Branch;
 import org.omg.sysml.lifecycle.Project;
 import org.omg.sysml.record.impl.RecordImpl;
@@ -65,7 +66,8 @@ public class ProjectImpl extends RecordImpl implements Project {
 
     private Branch defaultBranch;
 
-    @OneToOne(targetEntity = BranchImpl.class, cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = BranchImpl.class, fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @JsonSerialize(as = BranchImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Branch getDefaultBranch() {
         return defaultBranch;

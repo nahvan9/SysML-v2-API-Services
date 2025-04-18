@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jackson.RecordSerialization;
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.lifecycle.Branch;
 import org.omg.sysml.lifecycle.Commit;
 import org.omg.sysml.lifecycle.Project;
@@ -55,6 +56,7 @@ public class BranchImpl extends RecordImpl implements Branch {
 
     @Override
     @ManyToOne(targetEntity = ProjectImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = ProjectImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Project getOwningProject() {
         return owningProject;
@@ -67,6 +69,7 @@ public class BranchImpl extends RecordImpl implements Branch {
 
     @Override
     @ManyToOne(targetEntity = CommitImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = CommitImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Commit getHead() {
         return head;

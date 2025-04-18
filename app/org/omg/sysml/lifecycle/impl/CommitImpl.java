@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jackson.RecordSerialization;
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.lifecycle.Commit;
 import org.omg.sysml.lifecycle.DataVersion;
 import org.omg.sysml.lifecycle.Project;
@@ -48,6 +49,7 @@ public class CommitImpl extends RecordImpl implements Commit {
 
     @Override
     @ManyToOne(targetEntity = ProjectImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = ProjectImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Project getOwningProject() {
         return owningProject;
@@ -58,7 +60,8 @@ public class CommitImpl extends RecordImpl implements Commit {
         this.owningProject = owningProject;
     }
 
-    @OneToMany(targetEntity = DataVersionImpl.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = DataVersionImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @JsonIgnore
     public Set<DataVersion> getChange() {
         if (change == null) {
@@ -83,6 +86,7 @@ public class CommitImpl extends RecordImpl implements Commit {
     }
 
     @ManyToOne(targetEntity = CommitImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = CommitImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Commit getPreviousCommit() {
         return previousCommit;
