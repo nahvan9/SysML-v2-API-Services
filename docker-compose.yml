@@ -32,8 +32,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.Jupyter
-    environment:
-      SYSML_API_BASE_PATH: http://localhost:9000
+      args:
+        SYSML_API_BASE_PATH: http://localhost:9000
     ports:
       - "8888:8888"
 
