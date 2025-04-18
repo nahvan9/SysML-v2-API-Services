@@ -1,0 +1,30 @@
+FROM openjdk:17-slim AS builder
+
+WORKDIR /tmp
+RUN apt update && apt install -y unzip wget
+RUN wget -q https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/download/2022-12/jupyter-sysml-kernel-0.31.0.zip
+
+FROM quay.io/jupyter/datascience-notebook:python-3.12.9
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh
+RUN bash Miniconda3-py39_4.12.0-Linux-x86_64.sh  -b -p $HOME/miniconda
+RUN conda install -c conda-forge jupyter-sysml-kernel
+
+WORKDIR /tmp
+RUN mkdir /tmp/sysml
+COPY --from=builder /tmp/jupyter-sysml-kernel-*.zip /tmp/sysml/kernel.zip
+
+WORKDIR /tmp/sysml
+USER root
+RUN apt update && apt install -y unzip
+USER jovyan
+RUN unzip kernel.zip
+
+# NOTE: this is based on a locally running SysML API server on Docker
+# ref: 
+ENV SYSML_API_BASE_PATH="http://host.docker.internal:9000"
+RUN jupyter kernelspec remove sysml -f
+RUN python install.py --sys-prefix "--api-base-path=$SYSML_API_BASE_PATH" "--graphviz-path=$(command -v dot)"
+
+RUN conda install -c conda-forge jupytext
+RUN conda install -c conda-forge jupyterlab-git
+WORKDIR /home/jovyan

@@ -1,0 +1,46 @@
+version: '2'
+services:
+  postgres-sysmlv2:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=sysml2
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-sysmlv2:/var/lib/postgresql/data
+
+  sysmlv2-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SBT_RELEASE: 1.10.11
+        SYSML_RELEASE: 2025-02
+    image: sysmlv2-api:2025-02
+    environment:
+      - POSTGRES_HOSTNAME=postgres-sysmlv2
+      - POSTGRES_PORT=5432
+    tty: true
+    links: 
+      - postgres-sysmlv2
+    ports:
+      - "9000:9000"
+  
+  sysml-notebook:
+    build:
+      context: .
+      dockerfile: Dockerfile.Jupyter
+    environment:
+      SYSML_API_BASE_PATH: http://host.docker.internal:9000
+    ports:
+      - "8888:8888"
+
+networks:
+  sysmlv2:
+    external: true
+
+volumes:
+  postgres-sysmlv2:
+    external: false
