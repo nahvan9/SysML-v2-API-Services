@@ -20,8 +20,8 @@ USER jovyan
 RUN unzip kernel.zip
 
 # NOTE: this is based on a locally running SysML API server on Docker
-# ref: 
-ENV SYSML_API_BASE_PATH="http://host.docker.internal:9000"
+# ref:
+
 RUN jupyter kernelspec remove sysml -f
 RUN python install.py --sys-prefix "--api-base-path=$SYSML_API_BASE_PATH" "--graphviz-path=$(command -v dot)"
 
