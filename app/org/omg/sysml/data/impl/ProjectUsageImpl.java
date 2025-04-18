@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jackson.RecordSerialization;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.FetchMode;
 import org.omg.sysml.data.ProjectUsage;
 import org.omg.sysml.lifecycle.Commit;
@@ -65,6 +66,7 @@ public class ProjectUsageImpl extends DataImpl implements ProjectUsage {
     @JsonGetter
     @JsonSerialize(using = RecordSerialization.RecordSerializer.class)
     @ManyToOne(targetEntity = CommitImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JoinColumn(name = "usedCommitId", table = "ProjectUsage")
     public Commit getUsedCommit() {
         return usedCommit;

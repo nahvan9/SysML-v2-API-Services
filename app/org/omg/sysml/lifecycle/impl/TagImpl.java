@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jackson.RecordSerialization;
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.lifecycle.Commit;
 import org.omg.sysml.lifecycle.Project;
 import org.omg.sysml.lifecycle.Tag;
@@ -43,6 +44,7 @@ public class TagImpl extends RecordImpl implements Tag {
 
     @Override
     @ManyToOne(targetEntity = ProjectImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = ProjectImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Project getOwningProject() {
         return owningProject;
@@ -54,6 +56,7 @@ public class TagImpl extends RecordImpl implements Tag {
     }
 
     @ManyToOne(targetEntity = CommitImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = CommitImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Commit getTaggedCommit() {
         return taggedCommit;

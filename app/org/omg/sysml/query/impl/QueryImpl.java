@@ -55,6 +55,7 @@ public class QueryImpl extends RecordImpl implements Query {
 
     @Override
     @ManyToOne(targetEntity = ProjectImpl.class, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JsonSerialize(as = ProjectImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Project getOwningProject() {
         return owningProject;
