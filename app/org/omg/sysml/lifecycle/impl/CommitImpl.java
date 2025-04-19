@@ -61,7 +61,7 @@ public class CommitImpl extends RecordImpl implements Commit {
         this.owningProject = owningProject;
     }
 
-    @OneToMany(targetEntity = DataVersionImpl.class, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = DataVersionImpl.class, fetch = FetchType.LAZY, orphanRemoval = true)
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @JsonIgnore
     public Set<DataVersion> getChange() {
