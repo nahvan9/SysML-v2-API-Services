@@ -2,7 +2,7 @@ FROM openjdk:17-slim AS builder
 
 WORKDIR /tmp
 RUN apt update && apt install -y unzip wget
-RUN wget -q https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/download/2022-12/jupyter-sysml-kernel-0.31.0.zip
+RUN wget -q https://github.com/Systems-Modeling/SysML-v2-Pilot-Implementation/releases/download/2024-12/jupyter-sysml-kernel-0.47.0.zip
 
 FROM quay.io/jupyter/datascience-notebook:python-3.12.9
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh
