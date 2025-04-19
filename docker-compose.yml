@@ -8,8 +8,8 @@ services:
       - POSTGRES_DB=sysml2
     ports:
       - "5432:5432"
-    volumes:
-      - postgres-sysmlv2:/var/lib/postgresql/data
+    # volumes:
+    #   - postgres-sysmlv2:/var/lib/postgresql/data
 
   sysmlv2-api:
     build: 
@@ -41,6 +41,6 @@ networks:
   sysmlv2:
     external: true
 
-volumes:
-  postgres-sysmlv2:
-    external: false
+# volumes:
+#   postgres-sysmlv2:
+#     external: false

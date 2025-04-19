@@ -66,7 +66,7 @@ public class ProjectImpl extends RecordImpl implements Project {
 
     private Branch defaultBranch;
 
-    @OneToOne(targetEntity = BranchImpl.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = BranchImpl.class, fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @JsonSerialize(as = BranchImpl.class, using = RecordSerialization.RecordSerializer.class)
     public Branch getDefaultBranch() {

@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.Any;
+import org.hibernate.annotations.Cascade;
 import org.omg.sysml.lifecycle.Data;
 import org.omg.sysml.lifecycle.DataIdentity;
 import org.omg.sysml.lifecycle.DataVersion;
@@ -54,7 +55,8 @@ public class DataVersionImpl extends RecordImpl implements DataVersion {
         this.payload = data;
     }
 
-    @ManyToOne(targetEntity = DataIdentityImpl.class, cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = DataIdentityImpl.class, fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     public DataIdentity getIdentity() {
         return identity;
     }

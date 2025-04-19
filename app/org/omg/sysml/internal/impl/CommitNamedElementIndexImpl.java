@@ -29,8 +29,8 @@ public class CommitNamedElementIndexImpl implements CommitNamedElementIndex {
 
     @Override
     @JoinColumn(name = "id")
-    @OneToOne(targetEntity = CommitImpl.class)
-    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
+    @OneToOne(targetEntity = CommitImpl.class, orphanRemoval = true)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @MapsId
     public Commit getCommit() {
         return commit;
