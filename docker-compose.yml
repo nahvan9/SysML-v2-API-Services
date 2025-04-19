@@ -36,6 +36,8 @@ services:
         SYSML_API_BASE_PATH: http://localhost:9000
     ports:
       - "8888:8888"
+    depends_on:
+      - sysmlv2-api
 
 networks:
   sysmlv2:
